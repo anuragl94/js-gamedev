@@ -1,9 +1,3 @@
-/**
- * This is a work in progress, and a lot of things are missing
- */
-
-// This is the game engine code. Scroll down to see the game implementation code.
-
 const MAX_FRAMES_PER_SECOND = 60; // I'm just going to assume this because I can
 
 function getKeyName(key) {
@@ -19,7 +13,7 @@ function getKeyName(key) {
 
 export default class Engine {
   // I feel that my FPS logic is flawed, but it's a start
-  fps = 60;
+  fps = MAX_FRAMES_PER_SECOND;
   #frame = 0;
   #mouse = {
     x: 0,
@@ -222,11 +216,14 @@ export class Entity {
     this.x = options.x;
     this.y = options.y;
   }
-  addEvent(keyevent, action) {
-    this.actions.set(`${keyevent}`, action.bind(this));
+  addEvent(keyevents, action) {
+    const eventNames = keyevents.split(",");
+    eventNames.forEach(keyevent => {
+      this.actions.set(`${keyevent}`, action.bind(this));
+    })
   }
   destroy() {
-    
+
   }
 }
 

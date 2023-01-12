@@ -38,7 +38,7 @@ player.cssClass = "player";
 player.sprite = "https://art.pixilart.com/eed75aa54e6c6f6.png";
 player.collisions = true;
 
-player.addEvent("KEY_W_DOWN", () => {
+player.addEvent("KEY_W_DOWN,KEY_SPACE_DOWN", () => {
   DPAD.up = true;
   if (player.gravity_y === 0) {
     player.velocity_y = -10;
@@ -114,3 +114,8 @@ solidBlock.collisions = true;
 
 solidBlock.cssClass = "solid-block";
 game.addEntity(solidBlock);
+
+/* Bugs to fix, as an exercise
+ 1. xscale is erratic when you mash A & D together
+ 2. Mario becomes spiderman if collision is horizontal
+*/
