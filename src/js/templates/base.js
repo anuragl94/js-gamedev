@@ -1,4 +1,4 @@
-export default template = `
+const template = `
 <div id="game-area"></div>
 <aside>
   <div>
@@ -12,3 +12,5 @@ export default template = `
   </div>
 </aside>
 `;
+
+export default template;
