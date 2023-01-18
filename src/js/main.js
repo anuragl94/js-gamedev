@@ -1,3 +1,4 @@
+import "./lib/polyfills";
 import Game, { PhysicsEntity } from "./lib/engine";
 import baseTemplate from "./templates/base";
 
@@ -11,7 +12,7 @@ const timeCounterEl = document.getElementById("time-counter");
 const game = new Game(
   {
     height: document.body.clientHeight,
-    width: document.body.clientWidth
+    width: document.body.clientWidth * 2
   },
   document.getElementById("game-area")
 );
@@ -28,7 +29,7 @@ const DPAD = {
 };
 
 const player = new PhysicsEntity({
-  x: Math.floor(game.width / 2) - (PLAYER_SIZE / 2),
+  x: PLAYER_SIZE * 4,
   y: Math.floor(game.height / 2) - (PLAYER_SIZE / 2),
   height: PLAYER_SIZE,
   width: PLAYER_SIZE
@@ -41,7 +42,7 @@ player.collisions = true;
 player.addEvent("KEY_W_DOWN,KEY_SPACE_DOWN", () => {
   DPAD.up = true;
   if (player.gravity_y === 0) {
-    player.velocity_y = -10;
+    player.velocity_y = -PLAYER_YSPEED;
   }
 });
 player.addEvent("KEY_W_UP", () => {
@@ -73,7 +74,7 @@ player.addEvent("KEY_ESCAPE_DOWN", () => {
 
 player.addEvent("STEP", () => {
   player.velocity_x = (DPAD.left ? -PLAYER_HSPEED : 0) + (DPAD.right ? PLAYER_HSPEED : 0);
-  player.velocity_y = Math.min(player.velocity_y, 12);
+  player.velocity_y = Math.clamp(player.velocity_y, -PLAYER_YSPEED, PLAYER_YSPEED);
 
   fpsCounterEl.innerText = game.fps;
   timeCounterEl.innerText = (++game.time / game.fps).toFixed(2);
@@ -104,15 +105,16 @@ player.addEvent("OUT_OF_BOUNDS", () => {
 game.addEntity(player);
 
 const solidBlock = new PhysicsEntity({
-  x: Math.floor(game.width / 2) - (PLAYER_SIZE / 2),
-  y: Math.floor(game.height / 2) - (PLAYER_SIZE / 2) + 400,
-  height: PLAYER_SIZE,
-  width: PLAYER_SIZE
+  x: 0,
+  y: Math.floor(game.height) - (PLAYER_SIZE * 4),
+  height: PLAYER_SIZE * 4,
+  width: game.width
 });
 
 solidBlock.collisions = true;
 
 solidBlock.cssClass = "solid-block";
+solidBlock.sprite = "https://lh3.googleusercontent.com/Cll2ysceEJGsBJx-YMqNCzoXYp7MI8_utNzdo9Mh_5EzEolkghmdQ83sdH-RQA9MWiXHe-AyfE05EggrGc-ykEetZZsjW4yWlog=s400";
 game.addEntity(solidBlock);
 
 /* Bugs to fix, as an exercise

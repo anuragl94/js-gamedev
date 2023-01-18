@@ -5,6 +5,7 @@ body {
   width: 100vw;
   overflow: hidden;
   user-select: none;
+  font-family: 'Press Start 2P', cursive;
 }
 
 aside {
@@ -16,6 +17,7 @@ aside {
 
 #game-area {
   position: relative;
+  background-color: #5d94fa;
 }
 
 .entity {
@@ -32,4 +34,7 @@ aside {
 
 .entity[data-class=solid-block] {
   background-color: #000;
+  background-position: 0 0;
+  background-size: 64px;
+  background-repeat: repeat;
 }
